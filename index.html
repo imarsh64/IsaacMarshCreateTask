@@ -2,35 +2,57 @@
   <head>
     <title>One Rep Max Calculator</title>
     <script>
+      var percent = [1.0, 0.97, 0.94, 0.92, 0.89, 0.86, 0.83, 0.81, 0.78, 0.75, 0.73, 0.71, 0.7, 0.68, 0.67, 0.65, 0.64, 0.63, 0.61,0.6];
       function oneRepMax(){
         var weight = document.getElementById("weight").value;
         var reps = document.getElementById("reps").value;
-        var percent = 1.0;
-        var repsChecker = 0;
+        var repsChecker = 1;//debug 1 - define outide loop
         for(var i=0; i<=20;i++){
-          if(reps == repsChecker){
-            var oneRepMax = weight/percent;
+          if(i+1 == reps){//this sems to happen every time
+           var oneRepMax = Math.round(weight/percent[i]*10)/10;//Math.round, times 10, and divide 10 is to round one decimal place
+           //alert(oneRepMax);//divide by zero???
           } else {
             repsChecker += 1;
-            percent -= .03;
           }
         }
-        document.getElementById('result').innerHTML = "Your one rep max is " + oneRepMax + " lbs."
-        //table(oneRepMax);
-      }
-    /*  function table(oneRepMax){
+         table(oneRepMax);
+         document.getElementById('result').innerHTML = "Your one rep max is " + oneRepMax + " lbs.";
+       }
+      function table(oneRepMax){
+        var percentOfMax = 1.0;
         var table = "";
-        for(var i=0; i<=20; i++){
-          var newWeight = oneRepMax*
+        for(var i=0; i<=11; i++){
+          var newWeight = Math.round(oneRepMax*percentOfMax*10)/10;
+          table = table + Math.round(percentOfMax*100) + '%&nbsp&nbsp&nbsp&nbsp' + newWeight + " lb" + "<br>";
+          percentOfMax -= .05;
         }
+        document.getElementById("table").innerHTML = table;
       }
-      */
+
     </script>
+    <style>
+      *{
+        text-align: center;
+      }
+      body{
+        background-color: white;
+        margin: 150px;
+        margin-left: 300px;
+        margin-right: 300px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border: 3px solid black;
+        border-radius: 15px;
+      }
+      html{
+        background-image: url("background.jpg");
+      }
+    </style>
   </head>
   <body>
     <h2>One Rep Max Calculator</h2>
     <br>
-    <p>Enter the weight and reps at that weight</p>
+    <p>Enter the weight and reps (under 20 reps) at that weight</p>
     <br>
     <input type="text" placeholder="Weight" id="weight">
     <input type="text" placeholder="reps" id="reps">
